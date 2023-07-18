@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import LeftSideNav from '../LeftSideNav/LeftSideNav';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
 
 const Header = () => {
+    const { user } = useContext(AuthContext);
+    console.log(user);
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
@@ -30,10 +33,14 @@ const Header = () => {
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#deets">More deets</Nav.Link>
-                            <Nav.Link eventKey={2} href="#memes">
-                                Dank memes
-                            </Nav.Link>
+                            {user?.displayName ? <p>{user.displayName}</p>
+                                : <p>undefine</p>
+                            }
+                            {user?.photoURL && <img className='rounded-circle mx-3'
+                                roundedCircle
+                                style={{ height: '25px' }}
+                                src={user.photoURL}
+                            ></img>}
                         </Nav>
                         <div className='d-lg-none'>
                             <LeftSideNav></LeftSideNav>
