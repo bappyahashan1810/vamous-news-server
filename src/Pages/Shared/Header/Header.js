@@ -8,8 +8,14 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
 
 const Header = () => {
-    const { user } = useContext(AuthContext);
+    const { user, authLogOut } = useContext(AuthContext);
     console.log(user);
+    const handlerLogOut = () => {
+        authLogOut()
+            .then(() => { })
+            .catch(error => console.error(error))
+    }
+
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
@@ -19,8 +25,8 @@ const Header = () => {
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="#features">All News</Nav.Link>
-                            <Nav.Link href="#pricing">Pricing</Nav.Link>
-                            <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+
+                            {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                                 <NavDropdown.Item href="#action/3.2">
                                     Another action
@@ -30,21 +36,29 @@ const Header = () => {
                                 <NavDropdown.Item href="#action/3.4">
                                     Separated link
                                 </NavDropdown.Item>
-                            </NavDropdown>
+                            </NavDropdown> */}
                         </Nav>
                         <Nav>
-                            {user?.displayName ? <p>{user.displayName}</p>
-                                : <p>undefine</p>
-                            }
-                            {user?.photoURL && <img className='rounded-circle mx-3'
-                                roundedCircle
-                                style={{ height: '25px' }}
-                                src={user.photoURL}
-                            ></img>}
+                            {
+                                user?.uid ? <>
+                                    {user?.displayName ? <p>{user.displayName}</p>
+                                        : <p>undefine</p>
+                                    }
+                                    {user?.photoURL && <img className='rounded-circle mx-3'
+                                        roundedCircle
+                                        style={{ height: '25px' }}
+                                        src={user.photoURL}
+                                    ></img>}
+                                    <button onClick={handlerLogOut} type="button" className="btn btn-sm btn-dark mt-0">LogOut</button>
+                                </>
+                                    :
+                                    <>
+                                        <Link to='/register'><button type="button" className="btn btn-sm btn-dark mx-2">SignUp</button></Link>
+                                        <Link to='/login'><button type="button" className="btn btn-sm btn-dark">LogIn</button></Link>
+                                    </>}
+
                         </Nav>
-                        <div className='d-lg-none'>
-                            <LeftSideNav></LeftSideNav>
-                        </div>
+
                     </Navbar.Collapse>
                 </Container>
 

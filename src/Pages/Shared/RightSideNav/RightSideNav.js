@@ -12,7 +12,7 @@ import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
 
 
 const RightSideNav = () => {
-    const { googleSignIn } = useContext(AuthContext);
+    const { googleSignIn, gitHubSignIn } = useContext(AuthContext);
 
     const handleGoogleLogIn = () => {
         googleSignIn()
@@ -23,12 +23,21 @@ const RightSideNav = () => {
             .catch(error => console.error(error))
     }
 
+    const handlegitHubLogin = () => {
+        gitHubSignIn()
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => console.error(error));
+    }
+
     return (
         <div>
             <ButtonGroup vertical>
 
                 <Button onClick={handleGoogleLogIn} className='mb-2' variant="outline-primary">LogIn with Google</Button>
-                <Button variant="outline-dark">Login With GitHub</Button>
+                <Button onClick={handlegitHubLogin} variant="outline-dark">Login With GitHub</Button>
 
 
             </ButtonGroup>
