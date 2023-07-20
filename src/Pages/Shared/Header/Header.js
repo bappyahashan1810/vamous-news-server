@@ -49,12 +49,12 @@ const Header = () => {
                                         style={{ height: '25px' }}
                                         src={user.photoURL}
                                     ></img>}
-                                    <button onClick={handlerLogOut} type="button" className="btn btn-sm btn-dark mt-0">LogOut</button>
+                                    <button onClick={handlerLogOut} type="button" className="btn btn-sm btn-light mt-0">LogOut</button>
                                 </>
                                     :
                                     <>
-                                        <Link to='/register'><button type="button" className="btn btn-sm btn-dark mx-2">SignUp</button></Link>
-                                        <Link to='/login'><button type="button" className="btn btn-sm btn-dark">LogIn</button></Link>
+                                        <Link to='/register'><button type="button" className="btn btn-sm btn-light mx-2">SignUp</button></Link>
+                                        <Link to='/login'><button type="button" className="btn btn-sm btn-light">LogIn</button></Link>
                                     </>}
 
                         </Nav>

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
 
 
@@ -9,11 +9,16 @@ import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
 const Login = () => {
     const { authLogIn } = useContext(AuthContext);
     const [success, setSuccess] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
+
+
+
     const handlerLogIn = event => {
-        success(false);
         event.preventDefault();
+        setSuccess(false);
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
@@ -24,7 +29,8 @@ const Login = () => {
                 console.log(user);
                 setSuccess(true);
                 form.reset();
-                navigate('/');
+                navigate(from, { replace: true });
+                setError('');
             })
             .catch(error => {
                 console.error(error);
@@ -32,7 +38,7 @@ const Login = () => {
             })
     }
     return (
-        <div className='w-50 bg-warning p-1 mt-4 mx-auto rounded'>
+        <div className='w-60 bg-warning p-1 mt-4 mx-auto rounded'>
             <Form onSubmit={handlerLogIn} className='m-5'>
                 <h3 className='text-primary'>Please Login</h3>
                 {success && <p className='text-success'>Successful Login</p>}
@@ -46,10 +52,8 @@ const Login = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" name='password' placeholder="Password" required />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
-                </Form.Group>
-                <p className='text-red'>{error}</p>
+
+                <p className='text-danger'>{error}</p>
                 <Button variant="primary" type="submit">
                     LogIn
                 </Button>
